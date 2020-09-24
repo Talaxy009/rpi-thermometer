@@ -30,6 +30,8 @@ TouchPin = 16
 GPIO.setup(TouchPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 timecount = 0
+min_p = time.time()
+hour_p = time.time()
 humidity, temperature = Adafruit_DHT.read_retry(sensor, DHT11pin)
 
 
@@ -80,21 +82,24 @@ def rangeJsonWrite(dataset, range):
 
 if __name__ == "__main__":
     try:
-        now = datetime.datetime.now()
-        min_p = now.minute
+        min_l = time.time()
+        hour_l = time.time()
+        data = {"tmp": temperature, "hmt": humidity}
+        rangeJsonWrite(data, 0)
+        rangeJsonWrite(data, 1)
         while True:
             if timecount >= 10:
-                now = datetime.datetime.now()
-                min_l = now.minute
                 humidity, temperature = Adafruit_DHT.read_retry(sensor, DHT11pin)
                 data = {"tmp": temperature, "hmt": humidity}
                 dataJsonWrite(data)
-                if min_l - min_p >= 5:
+                min_l = time.time()
+                if min_l - min_p >= 300:
                     rangeJsonWrite(data, 0)
-                    min_p = min_l
-                if min_l <= 5 & min_p >= 55:
-                    rangeJsonWrite(data, 1)
-                    min_p = 0
+                    min_p = time.time()
+                    hour_l = time.time()
+                    if hour_l - hour_p >= 3600:
+                        rangeJsonWrite(data, 1)
+                        hour_p = time.time()
                 timecount = 0
             Led(GPIO.input(TouchPin), humidity, temperature)
             time.sleep(1)
