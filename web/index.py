@@ -69,12 +69,12 @@ def rangeJsonWrite(dataset, range):
         file = open("./data/halfDay.json", "r+")
     else:
         file = open("./data/hour.json", "r+")
-    hourData = json.load(file)
+    DataList = json.load(file)
     del hourData[0]
-    hourData.append(dataset)
+    DataList.append(dataset)
     file.seek(0, 0)
     file.truncate()
-    json.dump(hourData, file)
+    json.dump(DataList, file)
     file.close()
 
 
@@ -92,7 +92,7 @@ if __name__ == "__main__":
                 if min_l - min_p >= 5:
                     rangeJsonWrite(data, 0)
                     min_p = min_l
-                if min_p >= 55:
+                if min_l < 5:
                     rangeJsonWrite(data, 1)
                     min_p = 0
                 timecount = 0
