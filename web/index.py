@@ -1,6 +1,7 @@
 #!/user/bin/python3
 import datetime
-import json, os
+import json
+import os
 import time
 
 from luma.core.interface.serial import i2c
@@ -91,7 +92,7 @@ if __name__ == "__main__":
                 if min_l - min_p >= 5:
                     rangeJsonWrite(data, 0)
                     min_p = min_l
-                if min_l < 5:
+                if min_l <= 5 & min_p >= 55:
                     rangeJsonWrite(data, 1)
                     min_p = 0
                 timecount = 0
