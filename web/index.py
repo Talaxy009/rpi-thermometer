@@ -66,15 +66,16 @@ def dataJsonWrite(dataset):
 
 def rangeJsonWrite(dataset, range):
     if range:
-        file = open("./data/halfDay.json","r+")
+        file = open("./data/halfDay.json", "r+")
     else:
-        file = open("./data/hour.json","r+")
+        file = open("./data/hour.json", "r+")
     hourData = json.load(file)
     del hourData[0]
     hourData.append(dataset)
     file.seek(0, 0)
     file.truncate()
     json.dump(hourData, file)
+    print("data: {}".format(range))
     file.close()
 
 
@@ -89,13 +90,14 @@ if __name__ == "__main__":
                 humidity, temperature = Adafruit_DHT.read_retry(sensor, DHT11pin)
                 data = {"tmp": temperature, "hmt": humidity}
                 dataJsonWrite(data)
+                print(min_p)
                 if min_l - min_p >= 5:
                     rangeJsonWrite(data, 0)
-                    if min_p >= 50 :
-                        rangeJsonWrite(data, 1)
-                        min_p = 0
-                    else:
-                        min_p = min_l
+                if min_p >= 50:
+                    rangeJsonWrite(data, 1)
+                    min_p = 0
+                else:
+                    min_p = min_l
                 timecount = 0
             Led(GPIO.input(TouchPin), humidity, temperature)
             time.sleep(1)
