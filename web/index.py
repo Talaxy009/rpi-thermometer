@@ -1,7 +1,6 @@
 #!/user/bin/python3
 import datetime
-import json
-import os
+import json, os
 import time
 
 from luma.core.interface.serial import i2c
@@ -22,7 +21,7 @@ sensor = Adafruit_DHT.DHT11
 DHT11pin = 4
 
 # update time
-# os.system("sudo ntpdate cn.pool.ntp.org")
+os.system("sudo ntpdate cn.pool.ntp.org")
 
 # GPIO settings
 GPIO.setmode(GPIO.BOARD)
@@ -70,7 +69,7 @@ def rangeJsonWrite(dataset, range):
     else:
         file = open("./data/hour.json", "r+")
     DataList = json.load(file)
-    del hourData[0]
+    del DataList[0]
     DataList.append(dataset)
     file.seek(0, 0)
     file.truncate()
