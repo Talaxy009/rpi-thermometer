@@ -22,10 +22,10 @@ function pushData(range) {
 };
 
 function setData() {
-    $.getJSON('/data/data.json', function (rawData,status) {
+    $.getJSON('/data/data.json', function (rawData, status) {
         if (status) {
-            $('#temperature').text(rawData[0].tmp+'°C');
-            $('#humidity').text(rawData[0].hmt+'%');
+            $('#temperature').text(rawData[0].tmp + '°C');
+            $('#humidity').text(rawData[0].hmt + '%');
         } else {
             $('#temperature').text('ERROR');
             $('#humidity').text('ERROR');
