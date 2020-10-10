@@ -7,7 +7,7 @@ const path = require('path');
 const compiler = webpack(config);
 
 const server = new WebpackDevServer(compiler, {
-    contentBase: path.resolve(__dirname, '../dist'),
+    contentBase: path.resolve(__dirname, '../web'),
     historyApiFallback: true, 
     port: 8000,
     publicPath: "/"
