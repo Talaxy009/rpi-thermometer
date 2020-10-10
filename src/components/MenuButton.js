@@ -3,6 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { pushData } from './LineChart.js';
 
 const options = [
     '一小时内',
@@ -26,7 +27,7 @@ const Hour = [
 ];
 
 const halfDay = [
-    '现在', 
+    '现在',
     '1时前',
     '2时前',
     '3时前',
@@ -57,18 +58,18 @@ export default function MenuButton() {
 
     const handleChangeLabels = (index) => {
         for (let i = 0; i < 13; i++) {
-            window.LineChart.data.labels.pop();
+            LineChart.data.labels.pop();
         }
         if (index) {
             for (let i = 0; i < 13; i++) {
-                window.LineChart.data.labels.push(halfDay[12-i]);
+                LineChart.data.labels.push(halfDay[12 - i]);
             }
         } else {
             for (let i = 0; i < 13; i++) {
-                window.LineChart.data.labels.push(Hour[12-i]);
+                LineChart.data.labels.push(Hour[12 - i]);
             }
         }
-        window.LineChart.update();
+        LineChart.update();
         pushData(index);
     }
 

@@ -8,6 +8,9 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
 import MenuButton from "./components/MenuButton";
+import { generateChart, pushData, setData } from "./components/LineChart.js";
+
+window.$ = window.jQuery = require('./components/jquery-3.5.1.min.js');
 
 setInterval(function () { setData(); }, (5000));
 
@@ -92,3 +95,6 @@ render(
     </Container>,
     document.getElementById('root')
 );
+
+generateChart();
+pushData(0);

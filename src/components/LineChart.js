@@ -1,4 +1,6 @@
-function generateChart() {
+require("./Chart.min.js");
+
+export function generateChart() {
     var ctx = document.getElementById('LineChart');
     var LineChart = new Chart(ctx, {
         type: 'line',
@@ -44,4 +46,39 @@ function generateChart() {
         }
     });
     window.LineChart = LineChart;
-}
+}; //生成表格
+
+export function pushData(range) {
+    var jsonPath;
+    if (range) {
+        jsonPath = "./data/halfDay.json";
+    } else {
+        jsonPath = "./data/hour.json";
+    }
+    $.getJSON(jsonPath, function (rawData) {
+        if (LineChart.data.datasets[0].data.length != 0) {
+            var length = window.LineChart.data.datasets[0].data.length;
+            for (let i = 0; i < length; i++) {
+                LineChart.data.datasets[0].data.pop();
+                LineChart.data.datasets[1].data.pop();
+            }
+        }
+        for (let i = 0; i < 13; i++) {
+            LineChart.data.datasets[0].data.push(rawData[i].tmp);
+            LineChart.data.datasets[1].data.push(rawData[i].hmt);
+        }
+        LineChart.update();
+    });
+}; //注入表格数据
+
+export function setData() {
+    $.getJSON('/data/data.json', function (rawData, status) {
+        if (status) {
+            $('#temperature').text(rawData[0].tmp + '°C');
+            $('#humidity').text(rawData[0].hmt + '%');
+        } else {
+            $('#temperature').text('ERROR');
+            $('#humidity').text('ERROR');
+        }
+    });
+}; //更新实时温湿度
