@@ -1,4 +1,4 @@
-require("./Chart.min.js");
+require('chart.js');
 
 export function generateChart() {
     var ctx = document.getElementById('LineChart');
